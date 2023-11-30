@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
 
-        rb = gameObject.GetComponent<Rigidbody2D>();
+        rb = gameObject.transform.parent.GetComponent<Rigidbody2D>();
 
     }
     private void FixedUpdate()
@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
 
         Move();
 
+
+    }
+    private void Update()
+    {
         Jump();
 
     }
@@ -38,7 +42,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Jump()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (isGround)
             {
@@ -60,18 +64,28 @@ public class PlayerController : MonoBehaviour
             isGround = false;
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Ground")
-        isGround = true;
-    }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Ground")
+    //        isGround = true;
+    //}
     //private void OnCollisionStay2D(Collision2D collision)
     //{
     //    isGround = true;
     //}
-    private void OnCollisionExit2D(Collision2D collision)
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Ground")
+    //        isGround = false;
+    //}
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Ground")
-        isGround = false;
+        if (collision.gameObject.tag == "Ground")
+            isGround = true;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+            isGround = false;
     }
 }
